@@ -33,13 +33,9 @@ def create_user(
 @router.post("/registrar-not-secure", status_code=status.HTTP_201_CREATED)
 def create_user_not_secure(
     user: CrearUsuario,
-    db: Session = Depends(get_db),
-    user_token: RetornoUsuario = Depends(get_current_user)
+    db: Session = Depends(get_db)
 ):
     try:
-        if user_token.id_rol != 1:
-            raise HTTPException(status_code=401, detail="No tienes permisos para crear usuario")
-        
         crear = crud_users.create_user(db, user)
         if crear:
             return {"message": "Usuario creado correctamente"}
